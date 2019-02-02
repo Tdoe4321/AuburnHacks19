@@ -9,5 +9,7 @@ export class Tab1Page {
   data = {}
   infoForm() {
     console.log(this.data);
+    // Navigate to next tab
+    // Post data
   }
 }
