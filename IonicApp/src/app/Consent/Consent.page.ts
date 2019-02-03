@@ -1,28 +1,28 @@
 import { Component } from '@angular/core';
-// import { NavController } from '@ionic/angular';
+import { NavController } from '@ionic/angular';
 // import { Http } from '@angular/http';
 //import 'rxjs/add/operator/map'; //npm install --save rxjs-compat
 
 @Component({
-  selector: 'app-tab3',
-  templateUrl: 'tab3.page.html',
-  styleUrls: ['tab3.page.scss']
+  selector: 'app-ConsentPage',
+  templateUrl: 'Consent.page.html',
+  styleUrls: ['Consent.page.scss']
 })
 
 
 // Need to put in alert if not all boxes are checked
-export class Tab3Page {
+export class ConsentPage {
   username: "test"
   posts: any;
 
   //TODO Fix
-  // constructor(public navCtrl: NavController, public http: Http) {
+  constructor(public navCtrl: NavController) {
   //   this.http.post("http://localhost:8100/backend/db.py", "some=parameter&another=parameter&and=another&one=parameter").subscribe(data => {
   //       console.log(JSON.stringify(data.json()));
   //   }, error => {
   //       console.log(JSON.stringify(error.json()));
   //   });
-  // }
+  }
   data = {
     consentRecords: false,
     consentLocation: false,
@@ -41,6 +41,7 @@ export class Tab3Page {
       // post to DB 
       // navigate to settings
       this.sendPostRequest()
+      this.navCtrl.navigateRoot('/tabs/tab1')
     }
   }
   ngOnInit(){

@@ -3,7 +3,7 @@ import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Tab3Page } from './Consent.page';
+import { ConsentPage } from './Consent.page';
 // import { HttpClientModule, HttpHeaders, HttpParams } from '@angular/common/http';
 // import { Http } from '@angular/http';
 
@@ -12,10 +12,10 @@ import { Tab3Page } from './Consent.page';
     IonicModule,
     CommonModule,
     FormsModule,
-    RouterModule.forChild([{ path: '', component: Tab3Page }]),
+    RouterModule.forChild([{ path: '', component: ConsentPage }]),
     // HttpClientModule,
     // Http
   ],
-  declarations: [Tab3Page]
+  declarations: [ConsentPage]
 })
-export class Tab3PageModule {}
+export class ConsentPageModule {}
