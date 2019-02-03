@@ -47,6 +47,8 @@ button_delay = 0.2
 
 query_result = None
 
+name = "Tyler"
+
 
 def getch():
     fd = sys.stdin.fileno()
@@ -112,7 +114,7 @@ def sendEmail(hospitalName, road, routeTime, polyLines, destLatLon, reciepientLa
 	toemail = data[2]
 
 	msg = MIMEMultipart()
-	msg['Subject'] = "ALERT! Tyler is in the hospital"
+	msg['Subject'] = "ALERT! " + name +  " is in the hospital"
 	msg['From'] = fromemail
 	msg['To'] = toemail
 	msg.attach(part)
@@ -131,7 +133,7 @@ def sendEmail(hospitalName, road, routeTime, polyLines, destLatLon, reciepientLa
  
 	msg.attach(part)
 
-	body = "Tyler has entered the hospital at " + currTime + " and has not silenced his alert notification.\nHe is at " + hospitalName + ", take " + road + ". It will take roughly " + routeTime + " to get there."
+	body = name + " has entered the hospital at " + currTime + " and has not silenced his alert notification.\nHe is at " + hospitalName + ", take " + road + ". It will take roughly " + routeTime + " to get there."
 
 	deltaTimeZone = timeZone(reciepientLatLon, destLatLon)
 	if(deltaTimeZone != 0):
@@ -154,7 +156,7 @@ def sendEmail(hospitalName, road, routeTime, polyLines, destLatLon, reciepientLa
 	server.quit()
 
 def textToSpeech():
-	name = "Tyler"
+	
 	allergies = ["omnicef", "zithromax", "Insulin"]
 
 	sentence = "WARNING! WARNING! " + name + " has the following allergies:"
