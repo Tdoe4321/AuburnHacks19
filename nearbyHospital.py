@@ -24,7 +24,8 @@ from email.mime.text import MIMEText
 from email.utils import COMMASPACE, formatdate
 from gtts import gTTS
 from google.cloud import translate
-
+from PIL import Image, ImageDraw
+from testVision import *
 
 
 gmaps = googlemaps.Client(key='AIzaSyC_pk-16CSjVdRBLL9FzIMfkeP0buthiqY')
@@ -225,6 +226,7 @@ def main():
 	    	query_result = google_places.nearby_search(lat_lng=lat_lon[current_pos],radius=100,types=[types.TYPE_HOSPITAL])
 	        if len(query_result.places) > 0:
 	        	print "Hospital Nearby: " + query_result.places[0].name
+	        	execfile("testVision.py")
 	        	playAudio()
 	        	now = datetime.now()
 	        	directions_result = gmaps.directions( reciepient_lat_lon["lat"] + "," + reciepient_lat_lon["lng"],
