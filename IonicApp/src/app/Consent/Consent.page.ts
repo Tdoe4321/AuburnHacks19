@@ -15,13 +15,8 @@ export class ConsentPage {
   username: "test"
   posts: any;
 
-  //TODO Fix
   constructor(public navCtrl: NavController, public http: HttpClient) {
-  //   this.http.post("http://localhost:8100/backend/db.py", "some=parameter&another=parameter&and=another&one=parameter").subscribe(data => {
-  //       console.log(JSON.stringify(data.json()));
-  //   }, error => {
-  //       console.log(JSON.stringify(error.json()));
-  //   });
+
   }
   data = {
     consentRecords: false,
@@ -40,7 +35,6 @@ export class ConsentPage {
       this.data.displayError = false
       // post to DB 
       // navigate to settings
-      this.sendPostRequest()
       this.navCtrl.navigateRoot('/tabs/tab1')
     }
   }
@@ -49,19 +43,4 @@ export class ConsentPage {
     this.data.displayText = "You must consent to each field to use the application:"
   }
 
-  sendPostRequest() {
-    // var headers = new HttpHeaders();
-    // headers.append("Accept", 'application/json');
-    // headers.append('Content-Type', 'application/json' );
-    // const opts = new HttpParams(headers: headers);
-    this.http.get('localhost:8100/backend/db.py').subscribe(res => {
-      console.log(res)
-      //this.posts = res;
-    });
-    let postData = {
-            "user": this.username,
-            "consent": true
-    }
-
-  }
 }
