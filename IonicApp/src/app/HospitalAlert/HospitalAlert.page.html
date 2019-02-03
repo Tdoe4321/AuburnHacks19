@@ -9,6 +9,8 @@
 <ion-card onload='countdown()'>
   <ion-card-header>
     <ion-card-subtitle>Emergency Contact will be notified & medical records will be displayed in</ion-card-subtitle>
-    <ion-card-title ngDefaultControl [(ngModel)]="data.HTMLTime"></ion-card-title>
+    <ion-card-title ngDefaultControl ngBind [(ngModel)]="data.HTMLTime">{{data.HTMLTime}}</ion-card-title>
+    <ion-button (click)="cancel()" color="primary">Stop Alert!</ion-button>
+    <ion-button (click)="emergency()" color="primary">Emergency! Trigger alert!</ion-button>
   </ion-card-header>
 </ion-card>

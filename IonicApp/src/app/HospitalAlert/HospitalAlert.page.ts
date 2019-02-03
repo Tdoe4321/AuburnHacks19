@@ -15,20 +15,33 @@ export class HospitalAlertPage {
   time
   countdown() {
     let self = this
-    let secs = this.time
-    if(secs > 0) {
+    if(self.time > 0) {
       setTimeout(function(){
-        self.data.HTMLTime = Math.floor(secs/ 60) + ":" + (secs % 60)
+        let mins = Math.floor(self.time / 60)
+        let secs = (self.time % 60)
+        self.data.HTMLTime = mins + ":" + (secs > 9 ? secs : "0" + secs)
+        self.time = self.time - 1
         self.countdown()
       }, 1000)
+    } else if (self.time == -1) {
+      // End timer; a stop was triggered 
+      // Switch to a chill screen
     } else {
       this.emergency()
+      // Switch to alert screen
     }
   }
 
   emergency(){
-    
+    console.log("emergency!")
+    this.time = -1
   }
+
+  cancel() {
+    console.log("cancel!")
+    this.time = -1
+  }
+
   ngOnInit(){
     this.time = 300
     this.countdown()
