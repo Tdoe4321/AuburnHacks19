@@ -65,7 +65,19 @@ def playAudio():
 	mixer.music.load("audio/0.mp3")
 	mixer.music.play()
 
-def sendEmail(hospitalName, road, routeTime, polyLines):
+def timeZone(reciepientLatLon, destLatLon):
+	url = 'https://maps.googleapis.com/maps/api/timezone/json?&location=' + reciepientLatLon["lat"] + "," + reciepientLatLon["lng"] + '&timestamp=999999&key=AIzaSyC_pk-16CSjVdRBLL9FzIMfkeP0buthiqY'
+	response = requests.get(url, stream=True)
+	json_data_1 = json.loads(response.text)
+
+	url = 'https://maps.googleapis.com/maps/api/timezone/json?&location=' + destLatLon["lat"] + "," + destLatLon["lng"] + '&timestamp=999999&key=AIzaSyC_pk-16CSjVdRBLL9FzIMfkeP0buthiqY'
+	response = requests.get(url, stream=True)
+	json_data_2 = json.loads(response.text)
+
+	return (abs(abs(json_data_1["rawOffset"]) / 60 / 60 - abs(json_data_2["rawOffset"]) / 60 / 60))
+
+
+def sendEmail(hospitalName, road, routeTime, polyLines, destLatLon, reciepientLatLon):
 	#currTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 
 	url = 'https://maps.googleapis.com/maps/api/streetview?size=600x300&location=' + hospitalName + '&key=AIzaSyC_pk-16CSjVdRBLL9FzIMfkeP0buthiqY'
@@ -109,6 +121,11 @@ def sendEmail(hospitalName, road, routeTime, polyLines):
 	msg.attach(part)
 
 	body = "Tyler has entered the hospital at " + currTime + " and has not silenced his alert notification.\nHe is at " + hospitalName + ", take " + road + ". It will take roughly " + routeTime + " to get there."
+
+	deltaTimeZone = timeZone(reciepientLatLon, destLatLon)
+	if(deltaTimeZone != 0):
+		body = body + "\nYou will cross over " + str(deltaTimeZone) + " time zone on your way there."
+
 	msg.attach(MIMEText(body, 'plain'))
  
 	server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -175,7 +192,7 @@ def main():
 	        	directions_result = gmaps.directions( reciepient_lat_lon["lat"] + "," + reciepient_lat_lon["lng"],
                                      	 query_result.places[0].name,
                                      	  mode="driving")
-	        	sendEmail(query_result.places[0].name, directions_result[0]["summary"], directions_result[0]["legs"][0]["duration"]["text"], directions_result[0]["overview_polyline"]["points"])
+	        	sendEmail(query_result.places[0].name, directions_result[0]["summary"], directions_result[0]["legs"][0]["duration"]["text"], directions_result[0]["overview_polyline"]["points"], lat_lon[current_pos], reciepient_lat_lon)
 	        else:
 	        	print "No Hospitals Nearby"
 
