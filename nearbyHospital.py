@@ -71,7 +71,7 @@ def sendEmail(hospitalName, road, routeTime):
 	msg['To'] = toemail
 	msg['Subject'] = "ALERT! Tyler is in the hospital"
  
-	body = "Tyler has entered the hospital at " + currTime + " and has not silenced his alert notification.\nHe is at " + hospitalName + ", take " + road + ". It will take roughly " + routeTime + "."
+	body = "Tyler has entered the hospital at " + currTime + " and has not silenced his alert notification.\nHe is at " + hospitalName + ", take " + road + ". It will take roughly " + routeTime + " to get there."
 	msg.attach(MIMEText(body, 'plain'))
  
 	server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -125,10 +125,9 @@ def main():
 	        	#print query_result.places[0].name
 	        	#print type(lat_lon[current_pos]["lat"])
 	        	#lat_lon[current_pos]["lat"] + "," + lat_lon[current_pos]["lng"] 
-	        	directions_result = gmaps.directions(lat_lon[current_pos]["lat"] + "," + lat_lon[current_pos]["lng"] ,
+	        	directions_result = gmaps.directions(reciepient_lat_lon["lat"] + "," + reciepient_lat_lon["lng"] ,
                                      	 query_result.places[0].name,
-                                     	  mode="transit",
-                                     	  departure_time=now)
+                                     	  mode="driving")
 	        	#print directions_result
 	        	sendEmail(query_result.places[0].name, directions_result[0]["summary"], directions_result[0]["legs"][0]["duration"]["text"])
 	        else:
