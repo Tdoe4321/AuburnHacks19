@@ -10,7 +10,7 @@
   <ion-text [ngClass]="data.displayError ? 'error' : 'hide'"></ion-text>
   <form (ngSubmit)="consentForm()">
     <ion-item>
-        <ion-label class="center" [ngClass]="data.displayError ? 'error' : 'chill'"  ngDefaultControl ngBind [(ngModel)]="data.displayText">{{data.displayText}}</ion-label>
+        <ion-label class="center" [ngClass]="data.displayError ? 'error' : 'chill'"  ngDefaultControl ngBind [(ngModel)]="data.displayText">You must consent to the following<br />to use the application.</ion-label>
     </ion-item>
     <ion-item class="titleRow">
         <ion-label class="center">Medical Records</ion-label>
@@ -30,7 +30,7 @@
     <ion-item>
       <ion-checkbox class="center" [(ngModel)]="data.consentPush" name="consentPush"></ion-checkbox>
     </ion-item>
-    <ion-button type="submit" color="primary">Submit</ion-button>
+    <ion-button type="submit" class = "center" color="primary">Submit</ion-button>
   </form>
 </ion-content>
   

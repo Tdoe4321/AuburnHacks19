@@ -8,22 +8,30 @@
   
 <ion-content>
     <form (ngSubmit)="medicalForm()">
-      <ion-item>
-        <ion-label position="floating">Medical History</ion-label>
+      <ion-item  class="titleRow">
+        <ion-label class = "center">Medical History</ion-label>
+      </ion-item>
+      <ion-item >
         <ion-textarea [(ngModel)]="data.medicalHistory" name="medicalHistory"></ion-textarea>
       </ion-item>
-      <ion-item>
-        <ion-label position="floating">Allergies</ion-label>
+      <ion-item class="titleRow">
+        <ion-label class = "center">Allergies</ion-label>
+      </ion-item>
+      <ion-item >
         <ion-textarea [(ngModel)]="data.medicalAllergies" name="medicalAllergies"></ion-textarea>
       </ion-item>
-      <ion-item>
-        <ion-label position="floating">Procedures</ion-label>
+      <ion-item class="titleRow">
+        <ion-label class = "center">Procedures</ion-label>
+      </ion-item>
+      <ion-item  >
         <ion-textarea [(ngModel)]="data.medicalProcedures" name="medicalProcedures"></ion-textarea>
       </ion-item>
-      <ion-item>
-        <ion-label position="floating">Doctors</ion-label>
+      <ion-item class="titleRow">
+        <ion-label class = "center">Doctors</ion-label>
+      </ion-item>
+      <ion-item >
         <ion-textarea [(ngModel)]="data.medicalDoctors" name="medicalDoctors"></ion-textarea>
       </ion-item>
-      <ion-button type="submit" color="primary">Submit</ion-button>
+      <ion-button  class = "center" type="submit" color="primary">Submit</ion-button>
     </form>
 </ion-content>
