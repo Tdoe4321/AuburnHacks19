@@ -22,6 +22,8 @@ from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.utils import COMMASPACE, formatdate
+from gtts import gTTS
+
 
 
 gmaps = googlemaps.Client(key='AIzaSyC_pk-16CSjVdRBLL9FzIMfkeP0buthiqY')
@@ -58,7 +60,7 @@ def getch():
 
 
 def playAudio():
-	execfile("testSpeech.py")
+	textToSpeech()
 	mixer.init()
 	mixer.music.load("audio/0.mp3")
 	mixer.music.play()
@@ -102,6 +104,20 @@ def sendEmail(hospitalName, road, routeTime):
 	server.sendmail(fromemail, toemail, text)
 	server.quit()
 
+def textToSpeech():
+	name = "Tyler"
+	allergies = ["omnicef", "zithromax", "Insulin"]
+
+	sentence = "WARNING! WARNING! " + name + " has the following allergies:"
+
+	for allergin in allergies:
+		sentence = sentence + allergin + ", "
+
+	number = 0
+
+	tts = gTTS(sentence)
+	path = "audio/" + str(number) + '.mp3'
+	tts.save(path)
 
 current_milli_time = lambda : int(round(time.time() * 1000))
 
@@ -142,14 +158,9 @@ def main():
 	        	print "Hospital Nearby: " + query_result.places[0].name
 	        	playAudio()
 	        	now = datetime.now()
-	        	#print type(reciepient_lat_lon["lat"])
-	        	#print query_result.places[0].name
-	        	#print type(lat_lon[current_pos]["lat"])
-	        	#lat_lon[current_pos]["lat"] + "," + lat_lon[current_pos]["lng"] 
 	        	directions_result = gmaps.directions(reciepient_lat_lon["lat"] + "," + reciepient_lat_lon["lng"] ,
                                      	 query_result.places[0].name,
                                      	  mode="driving")
-	        	#print directions_result
 	        	sendEmail(query_result.places[0].name, directions_result[0]["summary"], directions_result[0]["legs"][0]["duration"]["text"])
 	        else:
 	        	print "No Hospitals Nearby"
