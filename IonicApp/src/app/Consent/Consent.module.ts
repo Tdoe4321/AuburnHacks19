@@ -4,8 +4,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ConsentPage } from './Consent.page';
-// import { HttpClientModule, HttpHeaders, HttpParams } from '@angular/common/http';
-// import { Http } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -13,8 +12,7 @@ import { ConsentPage } from './Consent.page';
     CommonModule,
     FormsModule,
     RouterModule.forChild([{ path: '', component: ConsentPage }]),
-    // HttpClientModule,
-    // Http
+    HttpClientModule
   ],
   declarations: [ConsentPage]
 })
