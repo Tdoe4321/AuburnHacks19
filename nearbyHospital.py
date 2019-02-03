@@ -137,7 +137,7 @@ def sendEmail(hospitalName, road, routeTime, polyLines, destLatLon, reciepientLa
 		body = body + "\nYou will cross over " + str(deltaTimeZone) + " time zone on your way there."
 
 	deltaElev = elevation(reciepientLatLon, destLatLon)
-	body = body + "\nThe difference in elecation between your location and your destination is: " + str(deltaElev) + "m."
+	body = body + "\nThe difference in elevation between your location and your destination is: " + str(deltaElev) + "m."
 
 	msg.attach(MIMEText(body, 'plain'))
  
