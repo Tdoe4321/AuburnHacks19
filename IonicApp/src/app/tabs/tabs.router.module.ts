@@ -53,6 +53,15 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'ActiveAlert',
+        children: [
+          {
+            path: '',
+            loadChildren: '../ActiveAlert/ActiveAlert.module#ActiveAlertPageModule'
+          }
+        ]
+      },
+      {
         path: '',
         redirectTo: '/tabs/tab1',
         pathMatch: 'full'
