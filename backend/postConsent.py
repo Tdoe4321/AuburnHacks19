@@ -13,6 +13,3 @@ c = conn.cursor()
 t = (username,)
 c.execute('INSERT INTO users (username) VALUES (?)', t)
 print(c.fetchone())
-
-python2json = json.dumps(a)
-print(python2json)
