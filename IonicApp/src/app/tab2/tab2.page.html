@@ -1,9 +1,29 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Tab Two
+      Medical Information
     </ion-title>
   </ion-toolbar>
 </ion-header>
-
-<ion-content></ion-content>
+  
+<ion-content>
+    <form (ngSubmit)="medicalForm()">
+      <ion-item>
+        <ion-label position="floating">Medical History</ion-label>
+        <ion-textarea [(ngModel)]="data.medicalHistory" name="medicalHistory"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Address</ion-label>
+        <ion-textarea [(ngModel)]="data.medicalAllergies" name="medicalAllergies"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Emergency Contact Name</ion-label>
+        <ion-textarea [(ngModel)]="data.medicalProcedures" name="medicalProcedures"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Emergency Contact Number</ion-label>
+        <ion-textarea [(ngModel)]="data.medicalDoctors" name="medicalDoctors"></ion-textarea>
+      </ion-item>
+      <ion-button type="submit" color="primary">Submit</ion-button>
+    </form>
+</ion-content>

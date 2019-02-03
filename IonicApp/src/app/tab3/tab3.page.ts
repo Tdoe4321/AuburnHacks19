@@ -5,4 +5,12 @@ import { Component } from '@angular/core';
   templateUrl: 'tab3.page.html',
   styleUrls: ['tab3.page.scss']
 })
-export class Tab3Page {}
+
+
+// Need to put in alert if not all boxes are checked
+export class Tab3Page {
+  data = {}
+  consentForm(){
+
+  }
+}
