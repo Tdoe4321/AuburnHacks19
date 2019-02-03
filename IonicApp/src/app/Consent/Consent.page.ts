@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
- 
 //import { Http } from '@angular/http';
 //import 'rxjs/add/operator/map'; //npm install --save rxjs-compat
 
@@ -18,7 +17,6 @@ export class ConsentPage {
 
   //TODO Fix
   constructor(public navCtrl: NavController, public http: HttpClient) {
-
   //   this.http.post("http://localhost:8100/backend/db.py", "some=parameter&another=parameter&and=another&one=parameter").subscribe(data => {
   //       console.log(JSON.stringify(data.json()));
   //   }, error => {

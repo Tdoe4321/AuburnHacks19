@@ -72,7 +72,7 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/tabs/tab1',
+        redirectTo: '/tabs/Consent',
         pathMatch: 'full'
       }
     ]
@@ -84,7 +84,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/tabs/tab1',
+    redirectTo: '/tabs/Consent',
     pathMatch: 'full'
   }
 ];
