@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab1',
@@ -6,10 +7,19 @@ import { Component } from '@angular/core';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
-  data = {}
+  data = {
+    
+  }
+
+  constructor(public navCtrl: NavController) {
+
+  }
   infoForm() {
     console.log(this.data);
+
     // Navigate to next tab
     // Post data
+    this.navCtrl.navigateRoot('/tabs/tab2')
   }
+
 }
