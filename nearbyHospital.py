@@ -23,6 +23,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.utils import COMMASPACE, formatdate
 from gtts import gTTS
+from google.cloud import translate
 
 
 
@@ -139,6 +140,10 @@ def sendEmail(hospitalName, road, routeTime, polyLines, destLatLon, reciepientLa
 	deltaElev = elevation(reciepientLatLon, destLatLon)
 	body = body + "\nThe difference in elevation between your location and your destination is: " + str(deltaElev) + "m."
 
+	body = body + '\n\n'
+
+	body = body + translation(body, 'es').encode('ascii', 'ignore').decode('ascii')
+
 	msg.attach(MIMEText(body, 'plain'))
  
 	server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -162,6 +167,24 @@ def textToSpeech():
 	tts = gTTS(sentence)
 	path = "audio/" + str(number) + '.mp3'
 	tts.save(path)
+
+def translation(textInput, language):
+	os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/home/tdoe321/projects/AuburnHacks-3a34beb48439.json"
+
+	# Instantiates a client
+	translate_client = translate.Client()
+
+	# The text to translate
+	text = textInput
+	# The target language
+	target = language
+
+	translation = translate_client.translate(
+	    text,
+	    target_language=target)
+
+	return translation['translatedText']
+
 
 current_milli_time = lambda : int(round(time.time() * 1000))
 
