@@ -1,32 +1,4 @@
-<ion-header>
-    <ion-toolbar>
-      <ion-title>
-        Consent Agreement
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
-    
-  <ion-content padding>
-      <form (ngSubmit)="consentForm()">
-        <ion-item class="titleRow">
-            <ion-label class="center">Medical Records</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-checkbox class="center" [(ngModel)]="data.consentRecords" name="consentRecords"></ion-checkbox>
-        </ion-item>
-        <ion-item class="titleRow">
-            <ion-label class="center">Location</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-checkbox class="center" [(ngModel)]="data.consentLocation" name="consentLocation"></ion-checkbox>
-        </ion-item>
-        <ion-item class="titleRow">
-            <ion-label class="center">Push Notifications</ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-checkbox class="center" [(ngModel)]="data.consentPush" name="consentPush"></ion-checkbox>
-        </ion-item>
-        <ion-button type="submit" color="primary">Submit</ion-button>
-      </form>
-  </ion-content>
-  
+<ion-card>
+    <ion-card-title class="center">Your information has been entered.<br/><br/>You're all set!</ion-card-title>
+    <ion-button class="center" (click)="restart()" color="primary">Edit Information</ion-button>
+</ion-card>

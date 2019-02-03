@@ -35,6 +35,15 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'Consent',
+        children: [
+          {
+            path: '',
+            loadChildren: '../Consent/Consent.module#ConsentPageModule'
+          }
+        ]
+      },
+      {
         path: 'HospitalAlert',
         children: [
           {
@@ -49,6 +58,15 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: '../LoginTab/LoginTab.module#LoginTabPageModule'
+          }
+        ]
+      },
+      {
+        path: 'ActiveAlert',
+        children: [
+          {
+            path: '',
+            loadChildren: '../ActiveAlert/ActiveAlert.module#ActiveAlertPageModule'
           }
         ]
       },
