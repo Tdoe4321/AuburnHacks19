@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 
-const SECOND = 1000
-
 @Component({
   selector: 'app-HospitalAlert',
   templateUrl: 'HospitalAlert.page.html',
@@ -14,12 +12,15 @@ export class HospitalAlertPage {
   data = {
     HTMLTime: "5:00"
   }
-  time = 300
+  time
   countdown() {
-    if(this.time > 0) {
+    let self = this
+    let secs = this.time
+    if(secs > 0) {
       setTimeout(function(){
-        this.data.HTMLTime = Math.floor(this.time / 60) + ":" + (this.time % 60);
-      }, SECOND)
+        self.data.HTMLTime = Math.floor(secs/ 60) + ":" + (secs % 60)
+        self.countdown()
+      }, 1000)
     } else {
       this.emergency()
     }
@@ -28,10 +29,9 @@ export class HospitalAlertPage {
   emergency(){
     
   }
-
-  ionViewDidLoad(){
-    this.countdown();
+  ngOnInit(){
+    this.time = 300
+    this.countdown()
   }
-  
 }
 
