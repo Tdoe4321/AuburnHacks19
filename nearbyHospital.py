@@ -15,6 +15,13 @@ import smtplib
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
 import json
+import shutil
+import smtplib
+from os.path import basename
+from email.mime.application import MIMEApplication
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.utils import COMMASPACE, formatdate
 
 
 gmaps = googlemaps.Client(key='AIzaSyC_pk-16CSjVdRBLL9FzIMfkeP0buthiqY')
@@ -27,7 +34,7 @@ google_places = GooglePlaces(YOUR_API_KEY)
 lat_lon_1 = {'lat': str(mylat), 'lng': str(mylon)}
 lat_lon_2 = {'lat': '33.762528', 'lng': '-84.387866'}
 lat_lon_3 = {'lat': str(mylat), 'lng': str(mylon)}
-lat_lon_4 = {'lat': '33.601185', 'lng': '-83.847952'}
+lat_lon_4 = {'lat': '32.640155', 'lng': '-85.403747'}
 
 reciepient_lat_lon = {'lat':'32.601949', 'lng':'-85.487686' }
 
@@ -58,6 +65,19 @@ def playAudio():
 
 def sendEmail(hospitalName, road, routeTime):
 	#currTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+
+	url = 'https://maps.googleapis.com/maps/api/streetview?size=600x300&location=' + hospitalName + '&key=AIzaSyC_pk-16CSjVdRBLL9FzIMfkeP0buthiqY'
+	response = requests.get(url, stream=True)
+	with open('img.jpeg', 'wb') as out_file:
+		shutil.copyfileobj(response.raw, out_file)
+	del response
+
+	f = "img.jpeg"
+	with open(f, "rb") as fil:
+		part = MIMEApplication(fil.read(),Name=basename(f))
+
+	part['Content-Disposition'] = 'attachment; filename="%s"' % basename(f)
+
 	currTime = time.ctime()
 
 	file = open("pass.txt", "r") 
@@ -67,9 +87,10 @@ def sendEmail(hospitalName, road, routeTime):
 	toemail = data[2]
 
 	msg = MIMEMultipart()
+	msg['Subject'] = "ALERT! Tyler is in the hospital"
 	msg['From'] = fromemail
 	msg['To'] = toemail
-	msg['Subject'] = "ALERT! Tyler is in the hospital"
+	msg.attach(part)
  
 	body = "Tyler has entered the hospital at " + currTime + " and has not silenced his alert notification.\nHe is at " + hospitalName + ", take " + road + ". It will take roughly " + routeTime + " to get there."
 	msg.attach(MIMEText(body, 'plain'))
