@@ -78,6 +78,11 @@ const routes: Routes = [
     ]
   },
   {
+    path: '/backend/db',
+    redirectTo: '/backend/db.py',
+    pathMatch: 'full'
+  },
+  {
     path: '',
     redirectTo: '/tabs/tab1',
     pathMatch: 'full'
