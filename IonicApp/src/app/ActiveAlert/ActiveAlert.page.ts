@@ -15,7 +15,7 @@ export class ActiveAlertPage {
 
 
   ngOnInit(){
-
+    // Text to speech
   }
 }
 

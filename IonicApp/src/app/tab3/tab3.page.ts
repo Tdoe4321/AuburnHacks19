@@ -9,8 +9,19 @@ import { Component } from '@angular/core';
 
 // Need to put in alert if not all boxes are checked
 export class Tab3Page {
-  data = {}
+  data = {
+    consentRecords: false,
+    consentLocations: false,
+    consentPush: false
+  }
   consentForm(){
-
+    let records = this.data.consentRecords
+    let location = this.data.consentLocations
+    let push = this.data.consentPush
+    if(!records || !location || !push) {
+      
+    } else {
+      
+    }
   }
 }
