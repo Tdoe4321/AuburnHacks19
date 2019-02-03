@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { URLSearchParams } from '@angular/http';
 
 @Component({
   selector: 'app-tab1',
@@ -7,6 +8,7 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
+  user: string
   data = {
     userName: "",
     userAddress: "",
@@ -17,6 +19,9 @@ export class Tab1Page {
   constructor(public navCtrl: NavController) {
     //get db values to set inputs
     this.data.userName = ""
+    let params = new URLSearchParams(window.location.search);
+    this.user = params.get("?user");
+    console.log(this.user)
   }
   infoForm() {
     console.log(this.data);
