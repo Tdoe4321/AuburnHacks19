@@ -8,11 +8,15 @@ import { NavController } from '@ionic/angular';
 })
 export class Tab1Page {
   data = {
-    
+    userName: "",
+    userAddress: "",
+    emergencyName: "",
+    emeergencyNumber: ""
   }
 
   constructor(public navCtrl: NavController) {
-
+    //get db values to set inputs
+    this.data.userName = ""
   }
   infoForm() {
     console.log(this.data);

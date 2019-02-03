@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-HospitalAlert',
@@ -35,7 +36,7 @@ export class HospitalAlertPage {
   }
 
   emergency(){
-    console.log("emergency!")
+    this.navCtrl.navigateRoot('/tabs/ActiveAlert')
     this.time = 0
   }
 
@@ -44,7 +45,7 @@ export class HospitalAlertPage {
     this.time = -1
   }
 
-  ngOnInit(){
+  constructor(public navCtrl: NavController) {
     this.time = 300
     this.data.AlertClass = true
     this.countdown()
