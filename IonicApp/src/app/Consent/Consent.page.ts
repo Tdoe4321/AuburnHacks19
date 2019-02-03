@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { NavController } from '@ionic/angular';
-// import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
+ 
+//import { Http } from '@angular/http';
 //import 'rxjs/add/operator/map'; //npm install --save rxjs-compat
 
 @Component({
@@ -10,13 +12,13 @@ import { NavController } from '@ionic/angular';
 })
 
 
-// Need to put in alert if not all boxes are checked
 export class ConsentPage {
   username: "test"
   posts: any;
 
   //TODO Fix
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, public http: HttpClient) {
+
   //   this.http.post("http://localhost:8100/backend/db.py", "some=parameter&another=parameter&and=another&one=parameter").subscribe(data => {
   //       console.log(JSON.stringify(data.json()));
   //   }, error => {
@@ -54,7 +56,10 @@ export class ConsentPage {
     // headers.append("Accept", 'application/json');
     // headers.append('Content-Type', 'application/json' );
     // const opts = new HttpParams(headers: headers);
-
+    this.http.get('localhost:8100/backend/db.py').subscribe(res => {
+      console.log(res)
+      //this.posts = res;
+    });
     let postData = {
             "user": this.username,
             "consent": true
