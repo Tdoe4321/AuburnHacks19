@@ -65,16 +65,16 @@ def playAudio():
 	mixer.music.load("audio/0.mp3")
 	mixer.music.play()
 
-def sendEmail(hospitalName, road, routeTime):
+def sendEmail(hospitalName, road, routeTime, polyLines):
 	#currTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 
 	url = 'https://maps.googleapis.com/maps/api/streetview?size=600x300&location=' + hospitalName + '&key=AIzaSyC_pk-16CSjVdRBLL9FzIMfkeP0buthiqY'
 	response = requests.get(url, stream=True)
-	with open('img.jpeg', 'wb') as out_file:
+	with open('img1.jpeg', 'wb') as out_file:
 		shutil.copyfileobj(response.raw, out_file)
 	del response
 
-	f = "img.jpeg"
+	f = "img1.jpeg"
 	with open(f, "rb") as fil:
 		part = MIMEApplication(fil.read(),Name=basename(f))
 
@@ -93,7 +93,21 @@ def sendEmail(hospitalName, road, routeTime):
 	msg['From'] = fromemail
 	msg['To'] = toemail
 	msg.attach(part)
+
+	url = 'https://maps.googleapis.com/maps/api/staticmap?size=600x400&path=enc%3A' + polyLines + '&key=AIzaSyC_pk-16CSjVdRBLL9FzIMfkeP0buthiqY'
+	response = requests.get(url, stream=True)
+	with open('img2.jpeg', 'wb') as out_file:
+		shutil.copyfileobj(response.raw, out_file)
+	del response
+
+	f = "img2.jpeg"
+	with open(f, "rb") as fil:
+		part = MIMEApplication(fil.read(),Name=basename(f))
+
+	part['Content-Disposition'] = 'attachment; filename="%s"' % basename(f)
  
+	msg.attach(part)
+
 	body = "Tyler has entered the hospital at " + currTime + " and has not silenced his alert notification.\nHe is at " + hospitalName + ", take " + road + ". It will take roughly " + routeTime + " to get there."
 	msg.attach(MIMEText(body, 'plain'))
  
@@ -158,10 +172,10 @@ def main():
 	        	print "Hospital Nearby: " + query_result.places[0].name
 	        	playAudio()
 	        	now = datetime.now()
-	        	directions_result = gmaps.directions(reciepient_lat_lon["lat"] + "," + reciepient_lat_lon["lng"] ,
+	        	directions_result = gmaps.directions( reciepient_lat_lon["lat"] + "," + reciepient_lat_lon["lng"],
                                      	 query_result.places[0].name,
                                      	  mode="driving")
-	        	sendEmail(query_result.places[0].name, directions_result[0]["summary"], directions_result[0]["legs"][0]["duration"]["text"])
+	        	sendEmail(query_result.places[0].name, directions_result[0]["summary"], directions_result[0]["legs"][0]["duration"]["text"], directions_result[0]["overview_polyline"]["points"])
 	        else:
 	        	print "No Hospitals Nearby"
 
