@@ -10,7 +10,8 @@ import { Component } from '@angular/core';
 // Need to put in alert if not all boxes are checked
 export class HospitalAlertPage {
   data = {
-    HTMLTime: "5:00"
+    HTMLTime: "5:00",
+    AlertClass: true
   }
   time
   countdown() {
@@ -23,9 +24,10 @@ export class HospitalAlertPage {
         self.time = self.time - 1
         self.countdown()
       }, 1000)
-    } else if (self.time == -1) {
+    } else if (self.time < 0) {
       // End timer; a stop was triggered 
-      // Switch to a chill screen
+      this.data.HTMLTime = "Alert has been cancelled."
+      this.data.AlertClass = false
     } else {
       this.emergency()
       // Switch to alert screen
@@ -34,7 +36,7 @@ export class HospitalAlertPage {
 
   emergency(){
     console.log("emergency!")
-    this.time = -1
+    this.time = 0
   }
 
   cancel() {
@@ -44,6 +46,7 @@ export class HospitalAlertPage {
 
   ngOnInit(){
     this.time = 300
+    this.data.AlertClass = true
     this.countdown()
   }
 }
