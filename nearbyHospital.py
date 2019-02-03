@@ -7,13 +7,20 @@ import termios
 import tty
 import os
 import time
+import requests, googlemaps
+from pygame import mixer
+
+
+gmaps = googlemaps.Client(key='AIzaSyC_pk-16CSjVdRBLL9FzIMfkeP0buthiqY')
+mylat = (gmaps.geolocate()['location']['lat'])
+mylon = (gmaps.geolocate()['location']['lng'])
 
 YOUR_API_KEY = 'AIzaSyC_pk-16CSjVdRBLL9FzIMfkeP0buthiqY'
 google_places = GooglePlaces(YOUR_API_KEY)
 
-lat_lon_1 = {'lat': '32.593357', 'lng': '-85.495163'}
+lat_lon_1 = {'lat': mylat, 'lng': mylon}
 lat_lon_2 = {'lat': '33.762528', 'lng': '-84.387866'}
-lat_lon_3 = {'lat': '32.593357', 'lng': '-85.495163'}
+lat_lon_3 = {'lat': mylat, 'lng': mylon}
 lat_lon_4 = {'lat': '33.601185', 'lng': '-83.847952'}
 
 #current_pos = 0
@@ -35,6 +42,12 @@ def getch():
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
     return ch
 
+
+def playAudio():
+	execfile("testSpeech.py")
+	mixer.init()
+	mixer.music.load("audio/0.mp3")
+	mixer.music.play()
 
 current_milli_time = lambda : int(round(time.time() * 1000))
 
@@ -73,8 +86,12 @@ def main():
 	    	query_result = google_places.nearby_search(lat_lng=lat_lon[current_pos],radius=100,types=[types.TYPE_HOSPITAL])
 	        if len(query_result.places) > 0:
 	        	print "Hospital Nearby: " + query_result.places[0].name
+	        	playAudio()
+	        	execfile("sendEmail.py")
 	        else:
 	        	print "No Hospitals Nearby"
+
+
 
 if __name__ == '__main__':
     main()
