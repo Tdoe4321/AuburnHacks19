@@ -105,3 +105,4 @@ venv.bak/
 
 #other
 pass.txt
+*.jpeg

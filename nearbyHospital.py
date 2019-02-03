@@ -15,6 +15,15 @@ import smtplib
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
 import json
+import shutil
+import smtplib
+from os.path import basename
+from email.mime.application import MIMEApplication
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.utils import COMMASPACE, formatdate
+from gtts import gTTS
+
 
 
 gmaps = googlemaps.Client(key='AIzaSyC_pk-16CSjVdRBLL9FzIMfkeP0buthiqY')
@@ -27,7 +36,7 @@ google_places = GooglePlaces(YOUR_API_KEY)
 lat_lon_1 = {'lat': str(mylat), 'lng': str(mylon)}
 lat_lon_2 = {'lat': '33.762528', 'lng': '-84.387866'}
 lat_lon_3 = {'lat': str(mylat), 'lng': str(mylon)}
-lat_lon_4 = {'lat': '33.601185', 'lng': '-83.847952'}
+lat_lon_4 = {'lat': '32.640155', 'lng': '-85.403747'}
 
 reciepient_lat_lon = {'lat':'32.601949', 'lng':'-85.487686' }
 
@@ -51,13 +60,38 @@ def getch():
 
 
 def playAudio():
-	execfile("testSpeech.py")
+	textToSpeech()
 	mixer.init()
 	mixer.music.load("audio/0.mp3")
 	mixer.music.play()
 
-def sendEmail(hospitalName, road, routeTime):
+def timeZone(reciepientLatLon, destLatLon):
+	url = 'https://maps.googleapis.com/maps/api/timezone/json?&location=' + reciepientLatLon["lat"] + "," + reciepientLatLon["lng"] + '&timestamp=999999&key=AIzaSyC_pk-16CSjVdRBLL9FzIMfkeP0buthiqY'
+	response = requests.get(url, stream=True)
+	json_data_1 = json.loads(response.text)
+
+	url = 'https://maps.googleapis.com/maps/api/timezone/json?&location=' + destLatLon["lat"] + "," + destLatLon["lng"] + '&timestamp=999999&key=AIzaSyC_pk-16CSjVdRBLL9FzIMfkeP0buthiqY'
+	response = requests.get(url, stream=True)
+	json_data_2 = json.loads(response.text)
+
+	return (abs(abs(json_data_1["rawOffset"]) / 60 / 60 - abs(json_data_2["rawOffset"]) / 60 / 60))
+
+
+def sendEmail(hospitalName, road, routeTime, polyLines, destLatLon, reciepientLatLon):
 	#currTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
+
+	url = 'https://maps.googleapis.com/maps/api/streetview?size=600x300&location=' + hospitalName + '&key=AIzaSyC_pk-16CSjVdRBLL9FzIMfkeP0buthiqY'
+	response = requests.get(url, stream=True)
+	with open('img1.jpeg', 'wb') as out_file:
+		shutil.copyfileobj(response.raw, out_file)
+	del response
+
+	f = "img1.jpeg"
+	with open(f, "rb") as fil:
+		part = MIMEApplication(fil.read(),Name=basename(f))
+
+	part['Content-Disposition'] = 'attachment; filename="%s"' % basename(f)
+
 	currTime = time.ctime()
 
 	file = open("pass.txt", "r") 
@@ -67,11 +101,31 @@ def sendEmail(hospitalName, road, routeTime):
 	toemail = data[2]
 
 	msg = MIMEMultipart()
+	msg['Subject'] = "ALERT! Tyler is in the hospital"
 	msg['From'] = fromemail
 	msg['To'] = toemail
-	msg['Subject'] = "ALERT! Tyler is in the hospital"
+	msg.attach(part)
+
+	url = 'https://maps.googleapis.com/maps/api/staticmap?size=600x400&path=enc%3A' + polyLines + '&key=AIzaSyC_pk-16CSjVdRBLL9FzIMfkeP0buthiqY'
+	response = requests.get(url, stream=True)
+	with open('img2.jpeg', 'wb') as out_file:
+		shutil.copyfileobj(response.raw, out_file)
+	del response
+
+	f = "img2.jpeg"
+	with open(f, "rb") as fil:
+		part = MIMEApplication(fil.read(),Name=basename(f))
+
+	part['Content-Disposition'] = 'attachment; filename="%s"' % basename(f)
  
-	body = "Tyler has entered the hospital at " + currTime + " and has not silenced his alert notification.\nHe is at " + hospitalName + ", take " + road + ". It will take roughly " + routeTime + "."
+	msg.attach(part)
+
+	body = "Tyler has entered the hospital at " + currTime + " and has not silenced his alert notification.\nHe is at " + hospitalName + ", take " + road + ". It will take roughly " + routeTime + " to get there."
+
+	deltaTimeZone = timeZone(reciepientLatLon, destLatLon)
+	if(deltaTimeZone != 0):
+		body = body + "\nYou will cross over " + str(deltaTimeZone) + " time zone on your way there."
+
 	msg.attach(MIMEText(body, 'plain'))
  
 	server = smtplib.SMTP('smtp.gmail.com', 587)
@@ -81,6 +135,20 @@ def sendEmail(hospitalName, road, routeTime):
 	server.sendmail(fromemail, toemail, text)
 	server.quit()
 
+def textToSpeech():
+	name = "Tyler"
+	allergies = ["omnicef", "zithromax", "Insulin"]
+
+	sentence = "WARNING! WARNING! " + name + " has the following allergies:"
+
+	for allergin in allergies:
+		sentence = sentence + allergin + ", "
+
+	number = 0
+
+	tts = gTTS(sentence)
+	path = "audio/" + str(number) + '.mp3'
+	tts.save(path)
 
 current_milli_time = lambda : int(round(time.time() * 1000))
 
@@ -121,16 +189,10 @@ def main():
 	        	print "Hospital Nearby: " + query_result.places[0].name
 	        	playAudio()
 	        	now = datetime.now()
-	        	#print type(reciepient_lat_lon["lat"])
-	        	#print query_result.places[0].name
-	        	#print type(lat_lon[current_pos]["lat"])
-	        	#lat_lon[current_pos]["lat"] + "," + lat_lon[current_pos]["lng"] 
-	        	directions_result = gmaps.directions(lat_lon[current_pos]["lat"] + "," + lat_lon[current_pos]["lng"] ,
+	        	directions_result = gmaps.directions( reciepient_lat_lon["lat"] + "," + reciepient_lat_lon["lng"],
                                      	 query_result.places[0].name,
-                                     	  mode="transit",
-                                     	  departure_time=now)
-	        	#print directions_result
-	        	sendEmail(query_result.places[0].name, directions_result[0]["summary"], directions_result[0]["legs"][0]["duration"]["text"])
+                                     	  mode="driving")
+	        	sendEmail(query_result.places[0].name, directions_result[0]["summary"], directions_result[0]["legs"][0]["duration"]["text"], directions_result[0]["overview_polyline"]["points"], lat_lon[current_pos], reciepient_lat_lon)
 	        else:
 	        	print "No Hospitals Nearby"
 
