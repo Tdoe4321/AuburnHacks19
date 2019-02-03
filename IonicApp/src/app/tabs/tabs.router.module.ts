@@ -35,6 +35,15 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'HospitalAlert',
+        children: [
+          {
+            path: '',
+            loadChildren: '../HospitalAlert/HospitalAlert.module#HospitalAlertPageModule'
+          }
+        ]
+      },
+      {
         path: '',
         redirectTo: '/tabs/tab1',
         pathMatch: 'full'

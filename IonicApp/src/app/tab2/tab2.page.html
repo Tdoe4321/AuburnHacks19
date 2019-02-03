@@ -9,15 +9,15 @@
 <ion-content>
     <form (ngSubmit)="medicalForm()">
       <ion-item>
-        <ion-label>Medical History</ion-label>
+        <ion-label position="floating">Medical History</ion-label>
         <ion-textarea [(ngModel)]="data.medicalHistory" name="medicalHistory"></ion-textarea>
       </ion-item>
       <ion-item>
-        <ion-label>Address</ion-label>
+        <ion-label position="floating">Address</ion-label>
         <ion-textarea [(ngModel)]="data.medicalAllergies" name="medicalAllergies"></ion-textarea>
       </ion-item>
       <ion-item>
-        <ion-label>Emergency Contact Name</ion-label>
+        <ion-label position="floating">Emergency Contact Name</ion-label>
         <ion-textarea [(ngModel)]="data.medicalProcedures" name="medicalProcedures"></ion-textarea>
       </ion-item>
       <ion-item>
