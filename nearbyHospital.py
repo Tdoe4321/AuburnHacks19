@@ -76,6 +76,16 @@ def timeZone(reciepientLatLon, destLatLon):
 
 	return (abs(abs(json_data_1["rawOffset"]) / 60 / 60 - abs(json_data_2["rawOffset"]) / 60 / 60))
 
+def elevation(reciepientLatLon, destLatLon):
+	url = 'https://maps.googleapis.com/maps/api/elevation/json?locations=' + reciepientLatLon["lat"] + "," + reciepientLatLon["lng"] + '&key=AIzaSyC_pk-16CSjVdRBLL9FzIMfkeP0buthiqY'
+	response = requests.get(url, stream=True)
+	json_data_1 = json.loads(response.text)
+
+	url = 'https://maps.googleapis.com/maps/api/elevation/json?locations=' + destLatLon["lat"] + "," + destLatLon["lng"] + '&key=AIzaSyC_pk-16CSjVdRBLL9FzIMfkeP0buthiqY'
+	response = requests.get(url, stream=True)
+	json_data_2 = json.loads(response.text)
+
+	return (abs(abs(json_data_1["results"][0]["elevation"]) - abs(json_data_2["results"][0]["elevation"])))
 
 def sendEmail(hospitalName, road, routeTime, polyLines, destLatLon, reciepientLatLon):
 	#currTime = strftime("%Y-%m-%d %H:%M:%S", gmtime())
@@ -125,6 +135,9 @@ def sendEmail(hospitalName, road, routeTime, polyLines, destLatLon, reciepientLa
 	deltaTimeZone = timeZone(reciepientLatLon, destLatLon)
 	if(deltaTimeZone != 0):
 		body = body + "\nYou will cross over " + str(deltaTimeZone) + " time zone on your way there."
+
+	deltaElev = elevation(reciepientLatLon, destLatLon)
+	body = body + "\nThe difference in elecation between your location and your destination is: " + str(deltaElev) + "m."
 
 	msg.attach(MIMEText(body, 'plain'))
  
