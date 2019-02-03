@@ -8,22 +8,30 @@
 
 <ion-content>
     <form (ngSubmit)="infoForm()">
+      <ion-item  class="titleRow">
+        <ion-label class = "center">Name</ion-label>
+      </ion-item>
       <ion-item>
-        <ion-label>Name</ion-label>
         <ion-input [(ngModel)]="data.userName" name="userName"></ion-input>
       </ion-item>
+      <ion-item  class="titleRow">
+        <ion-label class = "center">Address</ion-label>
+      </ion-item>
       <ion-item>
-        <ion-label>Address</ion-label>
         <ion-input [(ngModel)]="data.userAddress" name="userAddress"></ion-input>
       </ion-item>
+      <ion-item  class="titleRow">
+        <ion-label class = "center">Contact Name</ion-label>
+      </ion-item>
       <ion-item>
-        <ion-label>Contact Name</ion-label>
         <ion-input [(ngModel)]="data.emergencyName" name="emergencyName"></ion-input>
       </ion-item>
+      <ion-item  class="titleRow">
+        <ion-label class = "center">Contact Email</ion-label>
+      </ion-item>
       <ion-item>
-        <ion-label>Contact Email</ion-label>
         <ion-input [(ngModel)]="data.emergencyNumber" name="emergencyNumber"></ion-input>
       </ion-item>
-      <ion-button type="submit" color="primary">Submit</ion-button>
+      <ion-button type="submit" class = "center" color="primary">Submit</ion-button>
     </form>
 </ion-content>
