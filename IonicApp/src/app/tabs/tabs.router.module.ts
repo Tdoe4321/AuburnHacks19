@@ -44,6 +44,15 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'LoginTab',
+        children: [
+          {
+            path: '',
+            loadChildren: '../LoginTab/LoginTab.module#LoginTabPageModule'
+          }
+        ]
+      },
+      {
         path: '',
         redirectTo: '/tabs/tab1',
         pathMatch: 'full'
